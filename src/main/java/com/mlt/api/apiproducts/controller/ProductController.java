@@ -1,5 +1,6 @@
 package com.mlt.api.apiproducts.controller;
 
+import com.mlt.api.apiproducts.domain.dto.data.ProductDTO;
 import com.mlt.api.apiproducts.domain.dto.request.body.CreateProductRequest;
 import com.mlt.api.apiproducts.domain.dto.request.body.UpdateProductRequest;
 import com.mlt.api.apiproducts.domain.dto.request.query.GetProductsQueryParams;
@@ -23,15 +24,15 @@ public interface ProductController {
     MltResponse<GetProductsData> getProducts(@Valid GetProductsQueryParams queryParams);
 
     @GetMapping("/{id}")
-    MltResponse getProductById(@PathVariable Long id);
+    MltResponse<ProductDTO> getProductById(@PathVariable Long id);
 
     @PostMapping
-    MltResponse createProduct(@RequestBody @Valid CreateProductRequest request);
+    MltResponse<ProductDTO> createProduct(@RequestBody @Valid CreateProductRequest request);
 
     @PutMapping("/{id}")
-    MltResponse updateProduct(@PathVariable Long id, UpdateProductRequest request);
+    MltResponse<ProductDTO> updateProduct(@PathVariable Long id, UpdateProductRequest request);
 
     @DeleteMapping("/{id}")
-    MltResponse deleteProduct(@PathVariable Long id);
+    MltResponse<ProductDTO> deleteProduct(@PathVariable Long id);
 
 }

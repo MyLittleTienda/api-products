@@ -7,14 +7,16 @@ import com.mlt.api.apiproducts.domain.dto.request.query.GetProductsQueryParams;
 import com.mlt.api.apiproducts.domain.dto.response.GetProductsData;
 import com.mlt.api.apiproducts.mapper.ProductCategoryMapper;
 import com.mlt.api.apiproducts.mapper.ProductMapper;
-import com.mlt.api.apiproducts.service.ProductService;
 import com.mlt.api.apiproducts.model.Category;
 import com.mlt.api.apiproducts.model.Product;
 import com.mlt.api.apiproducts.model.ProductCategory;
 import com.mlt.api.apiproducts.repository.CategoryRepository;
 import com.mlt.api.apiproducts.repository.ProductRepository;
 import com.mlt.api.apiproducts.repository.specifications.ProductSpecification;
+import com.mlt.api.apiproducts.service.ProductService;
 import com.mlt.api.common.domain.response.MltResponse;
+import com.mlt.api.common.handler.error.exception.IdsNotMatchException;
+import com.mlt.api.common.handler.error.exception.ProductNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -77,7 +79,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public MltResponse<ProductDTO> getProductById(Long id) {
-        Product product = productRepository.findById(id).orElseThrow();
+        Product product = productRepository.findById(id)
+                                           .orElseThrow(() -> ProductNotFoundException.builder(id.toString()).build());
         return MltResponse.<ProductDTO>builder().data(productMapper.toProductDTO(product)).build();
     }
 
@@ -107,8 +110,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public MltResponse<ProductDTO> updateProduct(Long id, UpdateProductRequest productDTO) {
-        if (id.equals(productDTO.getId()) || !productRepository.existsById(id)) {
-            throw new RuntimeException("Product not found");
+        if (id.equals(productDTO.getId())) {
+            throw IdsNotMatchException.builder(List.of(id.toString(), productDTO.getId().toString())).build();
+        }
+        if (!productRepository.existsById(id)) {
+            throw ProductNotFoundException.builder(id.toString()).build();
         }
         Product product = productMapper.toProduct(productDTO);
         product = productRepository.save(product);

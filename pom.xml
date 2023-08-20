@@ -42,6 +42,11 @@
         <!-- Mlt Commons -->
         <dependency>
             <groupId>com.mlt.api</groupId>
+            <artifactId>common-errors</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.mlt.api</groupId>
             <artifactId>common-domain</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>

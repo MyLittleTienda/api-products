@@ -1,7 +1,7 @@
 package com.mlt.api.apiproducts.domain.dto.request.query;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.mlt.api.common.constantes.DateFormatConstants;
+import com.mlt.api.common.domain.constantes.DateFormatConstants;
 import com.mlt.api.common.domain.request.PageableMltRequest;
 import lombok.AllArgsConstructor;
 import lombok.Data;
