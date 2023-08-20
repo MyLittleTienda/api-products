@@ -42,7 +42,7 @@
         <!-- Mlt Commons -->
         <dependency>
             <groupId>com.mlt.api</groupId>
-            <artifactId>common-errors</artifactId>
+            <artifactId>common-handler</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
         <dependency>
