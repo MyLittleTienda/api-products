@@ -15,8 +15,9 @@ import com.mlt.api.apiproducts.repository.ProductRepository;
 import com.mlt.api.apiproducts.repository.specifications.ProductSpecification;
 import com.mlt.api.apiproducts.service.ProductService;
 import com.mlt.api.common.domain.response.MltResponse;
-import com.mlt.api.common.handler.error.exception.IdsNotMatchException;
-import com.mlt.api.common.handler.error.exception.ProductNotFoundException;
+import com.mlt.api.common.handler.error.exception.notfound.ProductNotFoundException;
+import com.mlt.api.common.handler.error.exception.validation.IdsNotFoundException;
+import com.mlt.api.common.handler.error.exception.validation.IdsNotMatchException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -27,6 +28,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -91,7 +93,10 @@ public class ProductServiceImpl implements ProductService {
 
         List<Category> categories = categoryRepository.findAllById(productDTO.getCategories());
         if (categories.size() != productDTO.getCategories().size()) {
-            throw new RuntimeException("Category not found");
+            throw IdsNotFoundException.builder(
+                    "category",
+                    productDTO.getCategories().stream().map(Objects::toString).toList()
+            ).build();
         }
 
 

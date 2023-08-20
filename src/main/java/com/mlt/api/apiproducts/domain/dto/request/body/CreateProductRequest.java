@@ -19,13 +19,13 @@ import java.util.List;
 @Data
 public class CreateProductRequest extends MltRequest {
 
-    @NotBlank
+    @NotBlank(message = "Product name is required")
     private String name;
-    @NotBlank
+    @NotBlank(message = "Product description is required")
     private String description;
-    @NotEmpty
+    @NotEmpty(message = "Product category is required")
     private List<Long> categories;
-    @NotEmpty
+    @NotEmpty(message = "Product price is required")
     private List<Double> prices;
     @Valid
     private List<ImageLinkDTO> images;

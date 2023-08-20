@@ -17,9 +17,9 @@ import lombok.experimental.SuperBuilder;
 @Data
 public class ImageLinkDTO extends MltRequest {
 
-    @NotEmpty
+    @NotEmpty(message = "Image link cannot be empty")
     private String link;
-    @NotEmpty
+    @NotEmpty(message = "Image link cannot be empty")
     private String provider;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Long id;
