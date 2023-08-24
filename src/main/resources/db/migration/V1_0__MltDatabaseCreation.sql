@@ -1,6 +1,3 @@
-create schema if not exists "mlt-products";
-use "mlt-products";
-
 create table if not exists category
 (
     id         int auto_increment
