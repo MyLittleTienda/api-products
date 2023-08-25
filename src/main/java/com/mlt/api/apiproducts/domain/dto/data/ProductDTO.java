@@ -22,7 +22,7 @@ import java.util.List;
 public class ProductDTO extends MltData {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long id;
+    private Integer id;
     private String name;
     private String description;
     @JsonFormat(pattern = DateFormatConstants.DATE_TIME_FORMAT)

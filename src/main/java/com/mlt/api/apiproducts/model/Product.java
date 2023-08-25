@@ -15,8 +15,10 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.Where;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Builder
@@ -25,12 +27,13 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "product", schema = "mlt-db")
+@Table(name = "product")
+@Where(clause = "deleted_at is null")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
-    private Long id;
+    private Integer id;
 
     @Size(max = 100)
     @NotNull
@@ -48,16 +51,31 @@ public class Product {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<ProductImage> images;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<ProductCategory> productCategories;
 
-    @OneToMany(mappedBy = "product", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Price> prices;
 
     @Column(name = "deleted_at")
     private LocalDateTime deletedAt;
+
+    public void addPrice(Price price) {
+        this.prices.add(price);
+        price.setProduct(this);
+    }
+
+    public void addCategory(ProductCategory productCategory) {
+        this.productCategories.add(productCategory);
+        productCategory.setProduct(this);
+    }
+
+    public void addImage(ProductImage productImage) {
+        this.images.add(productImage);
+        productImage.setProduct(this);
+    }
 
 }

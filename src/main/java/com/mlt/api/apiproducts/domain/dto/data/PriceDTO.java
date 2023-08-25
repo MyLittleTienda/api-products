@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class PriceDTO extends MltData {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long id;
+    private Integer id;
     private Double value;
 
 }

@@ -24,7 +24,7 @@ public class CreateProductRequest extends MltRequest {
     @NotBlank(message = "Product description is required")
     private String description;
     @NotEmpty(message = "Product category is required")
-    private List<Long> categories;
+    private List<Integer> categories;
     @NotEmpty(message = "Product price is required")
     private List<Double> prices;
     @Valid

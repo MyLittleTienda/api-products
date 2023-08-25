@@ -5,14 +5,13 @@ import com.mlt.api.common.domain.response.MltPagedData;
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @EqualsAndHashCode(callSuper = true)
-@NoArgsConstructor
 @Data
 public class GetProductsData extends MltPagedData {
+
 
     private List<ProductDTO> products;
 

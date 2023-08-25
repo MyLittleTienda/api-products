@@ -3,6 +3,7 @@ package com.mlt.api.apiproducts.controller.impl;
 import com.mlt.api.apiproducts.controller.ProductController;
 import com.mlt.api.apiproducts.domain.dto.data.ProductDTO;
 import com.mlt.api.apiproducts.domain.dto.request.body.CreateProductRequest;
+import com.mlt.api.apiproducts.domain.dto.request.body.ImageLinkDTO;
 import com.mlt.api.apiproducts.domain.dto.request.body.UpdateProductRequest;
 import com.mlt.api.apiproducts.domain.dto.request.query.GetProductsQueryParams;
 import com.mlt.api.apiproducts.domain.dto.response.GetProductsData;
@@ -23,7 +24,7 @@ public class ProductControllerImpl implements ProductController {
     }
 
     @Override
-    public MltResponse<ProductDTO> getProductById(Long id) {
+    public MltResponse<ProductDTO> getProductById(Integer id) {
         return productService.getProductById(id);
     }
 
@@ -33,12 +34,42 @@ public class ProductControllerImpl implements ProductController {
     }
 
     @Override
-    public MltResponse<ProductDTO> updateProduct(Long id, UpdateProductRequest request) {
+    public MltResponse<ProductDTO> updateProductData(Integer id, UpdateProductRequest request) {
         return productService.updateProduct(id, request);
     }
 
     @Override
-    public MltResponse<ProductDTO> deleteProduct(Long id) {
+    public MltResponse<ProductDTO> deleteProduct(Integer id) {
         return productService.deleteProduct(id);
+    }
+
+    @Override
+    public MltResponse<ProductDTO> addPrice(Integer id, Double price) {
+        return productService.addPrice(id, price);
+    }
+
+    @Override
+    public MltResponse<ProductDTO> addCategory(Integer id, Integer idCategory) {
+        return productService.addCategory(id, idCategory);
+    }
+
+    @Override
+    public MltResponse<ProductDTO> addImage(Integer id, ImageLinkDTO image) {
+        return productService.addImage(id, image);
+    }
+
+    @Override
+    public MltResponse<ProductDTO> removePrice(Integer id, Integer idPrice) {
+        return productService.removePrice(id, idPrice);
+    }
+
+    @Override
+    public MltResponse<ProductDTO> removeCategory(Integer id, Integer idCategory) {
+        return productService.removeCategory(id, idCategory);
+    }
+
+    @Override
+    public MltResponse<ProductDTO> removeImage(Integer id, Integer idImage) {
+        return productService.removeImage(id, idImage);
     }
 }

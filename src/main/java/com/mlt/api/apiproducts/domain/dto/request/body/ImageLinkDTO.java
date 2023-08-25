@@ -22,6 +22,6 @@ public class ImageLinkDTO extends MltRequest {
     @NotEmpty(message = "Image link cannot be empty")
     private String provider;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Long id;
+    private Integer id;
 
 }

@@ -16,6 +16,7 @@ public interface ProductCategoryMapper {
     @Mapping(target = "category", source = "category")
     @Mapping(target = "product", source = "product")
     @Mapping(target = "createdAt", expression = "java(java.time.LocalDateTime.now())")
+    @Mapping(target = "deletedAt", ignore = true)
     ProductCategory toProductCategory(Category category, Product product);
 
     @Mapping(target = "id", source = "productCategory.category.id")

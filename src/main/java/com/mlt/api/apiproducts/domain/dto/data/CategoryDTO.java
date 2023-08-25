@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class CategoryDTO extends MltData {
 
-    private Long id;
+    private Integer id;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String name;
 

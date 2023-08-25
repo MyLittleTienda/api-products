@@ -13,11 +13,8 @@ public class ProductSpecification {
             if (name == null) {
                 return null;
             }
-            StringBuilder sb = new StringBuilder();
-            sb.append("%");
-            sb.append(name);
-            sb.append("%");
-            return cb.like(root.get("name"), sb.toString());
+            String sb = "%" + name + "%";
+            return cb.like(root.get("name"), sb);
         };
     }
 
