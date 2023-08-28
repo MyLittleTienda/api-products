@@ -87,13 +87,42 @@ public class GetProductsTest {
 
         assertNotNull(data);
 
-        // Test de la respuesta del metodo getProducts
         assertEquals(10, data.getProducts().size());
         assertEquals(1, data.getTotalPages());
         assertEquals(10, data.getTotalElements());
-        assertEquals(0, data.getPage());
+        assertEquals(1, data.getPage());
         assertEquals(10, data.getSize());
 
+    }
+
+    @Test
+    void givenAllParameters_whenGetProducts_thenNotData() {
+        //List of Products for mock with generic data
+        LocalDateTime now = LocalDateTime.now();
+        List<Product> productsMock = new ArrayList<>();
+
+        Page<Product> products = new PageImpl<>(productsMock, PageRequest.of(0, 10), 1);
+
+        Mockito.when(productRepository.findAll(Mockito.any(Specification.class), Mockito.any(Pageable.class)))
+               .thenReturn(products);
+
+        GetProductsQueryParams params = GetProductsQueryParams.builder()
+                                                              .name("Product")
+                                                              .categoryNames(List.of("Category"))
+                                                              .page(1)
+                                                              .size(10)
+                                                              .sort("ASC")
+                                                              .build();
+
+        GetProductsData data = (GetProductsData) productService.getProducts(params).getData();
+
+        assertNotNull(data);
+
+        assertEquals(0, data.getProducts().size());
+        assertEquals(1, data.getTotalPages());
+        assertEquals(1, data.getTotalElements());
+        assertEquals(1, data.getPage());
+        assertEquals(10, data.getSize());
     }
 
 }
