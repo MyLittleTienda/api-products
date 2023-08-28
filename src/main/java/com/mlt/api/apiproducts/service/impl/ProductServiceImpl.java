@@ -148,11 +148,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public MltResponse<ProductDTO> deleteProduct(Integer id) {
-        if (!productRepository.existsById(id)) {
-            throw new RuntimeException("Product not found");
-        }
-        productRepository.deleteById(id);
-        return MltResponse.<ProductDTO>builder().build();
+        Product product = getProduct(id);
+
+        product.setDeletedAt(LocalDateTime.now());
+        product = productRepository.save(product);
+        return MltResponse.<ProductDTO>builder().data(productMapper.toProductDTO(product)).build();
     }
 
     @Override
