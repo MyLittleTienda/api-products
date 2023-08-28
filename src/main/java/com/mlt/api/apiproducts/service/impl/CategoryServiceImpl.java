@@ -8,6 +8,7 @@ import com.mlt.api.apiproducts.mapper.CategoryMapper;
 import com.mlt.api.apiproducts.model.Category;
 import com.mlt.api.apiproducts.repository.CategoryRepository;
 import com.mlt.api.apiproducts.service.CategoryService;
+import com.mlt.api.common.domain.response.MltResponse;
 import com.mlt.api.common.handler.error.exception.notfound.CategoryNotFoundException;
 import com.mlt.api.common.handler.error.exception.validation.CategoryExistsException;
 import com.mlt.api.common.handler.error.exception.validation.IdsNotMatchException;
@@ -25,23 +26,27 @@ public class CategoryServiceImpl implements CategoryService {
     private final CategoryMapper categoryMapper;
 
     @Override
-    public GetCategoriesData getCategories() {
+    public MltResponse<GetCategoriesData> getCategories() {
         List<Category> categories = categoryRepository.findAll(CategoryRepository.categoryDeletedAtNotNull());
-        return GetCategoriesData.builder()
-                                .categories(categories.stream().map(categoryMapper::toCategoryDTO).toList())
-                                .build();
+        return MltResponse.<GetCategoriesData>builder().data(GetCategoriesData.builder()
+                                                                              .categories(categories.stream()
+                                                                                                    .map(categoryMapper::toCategoryDTO)
+                                                                                                    .toList())
+                                                                              .build()).build();
     }
 
     @Override
-    public CategoryDTO createCategory(CreateCategoryRequest category) {
+    public MltResponse<CategoryDTO> createCategory(CreateCategoryRequest category) {
         if (!categoryRepository.findAll(CategoryRepository.categoryNameEquals(category.getName())).isEmpty()) {
             throw CategoryExistsException.builder().name(category.getName()).build();
         }
-        return categoryMapper.toCategoryDTO(categoryRepository.save(categoryMapper.toCategory(category.getName())));
+        return MltResponse.<CategoryDTO>builder()
+                          .data(categoryMapper.toCategoryDTO(categoryRepository.save(categoryMapper.toCategory(category.getName()))))
+                          .build();
     }
 
     @Override
-    public CategoryDTO updateCategory(UpdateCategoryRequest categoryRequest, Integer id) {
+    public MltResponse<CategoryDTO> updateCategory(UpdateCategoryRequest categoryRequest, Integer id) {
         if (!id.equals(categoryRequest.getId())) {
             throw IdsNotMatchException.builder(List.of(id.toString())).build();
         }
@@ -55,11 +60,13 @@ public class CategoryServiceImpl implements CategoryService {
                                                                                           .build());
         category.setName(categoryRequest.getName());
 
-        return categoryMapper.toCategoryDTO(categoryRepository.save(category));
+        return MltResponse.<CategoryDTO>builder()
+                          .data(categoryMapper.toCategoryDTO(categoryRepository.save(category)))
+                          .build();
     }
 
     @Override
-    public CategoryDTO deleteCategory(Integer id) {
+    public MltResponse<CategoryDTO> deleteCategory(Integer id) {
         Category category = categoryRepository.findById(id)
                                               .orElseThrow(() -> CategoryNotFoundException.builder(id.toString())
                                                                                           .build());
@@ -67,6 +74,6 @@ public class CategoryServiceImpl implements CategoryService {
         category.setDeletedAt(LocalDateTime.now());
         categoryRepository.save(category);
 
-        return categoryMapper.toCategoryDTO(category);
+        return MltResponse.<CategoryDTO>builder().data(categoryMapper.toCategoryDTO(category)).build();
     }
 }

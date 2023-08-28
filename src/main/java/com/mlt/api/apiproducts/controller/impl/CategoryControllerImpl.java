@@ -6,6 +6,7 @@ import com.mlt.api.apiproducts.domain.dto.request.body.CreateCategoryRequest;
 import com.mlt.api.apiproducts.domain.dto.request.body.UpdateCategoryRequest;
 import com.mlt.api.apiproducts.domain.dto.response.GetCategoriesData;
 import com.mlt.api.apiproducts.service.CategoryService;
+import com.mlt.api.common.domain.response.MltResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,22 +17,22 @@ public class CategoryControllerImpl implements CategoryController {
     private final CategoryService categoryService;
 
     @Override
-    public GetCategoriesData getCategories() {
+    public MltResponse<GetCategoriesData> getCategories() {
         return categoryService.getCategories();
     }
 
     @Override
-    public CategoryDTO createCategory(CreateCategoryRequest category) {
+    public MltResponse<CategoryDTO> createCategory(CreateCategoryRequest category) {
         return categoryService.createCategory(category);
     }
 
     @Override
-    public CategoryDTO updateCategory(UpdateCategoryRequest category, Integer id) {
+    public MltResponse<CategoryDTO> updateCategory(UpdateCategoryRequest category, Integer id) {
         return categoryService.updateCategory(category, id);
     }
 
     @Override
-    public CategoryDTO deleteCategory(Integer id) {
+    public MltResponse<CategoryDTO> deleteCategory(Integer id) {
         return categoryService.deleteCategory(id);
     }
 }

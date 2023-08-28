@@ -21,6 +21,8 @@ import com.mlt.api.apiproducts.repository.specifications.ProductSpecification;
 import com.mlt.api.apiproducts.service.ProductService;
 import com.mlt.api.common.domain.response.MltResponse;
 import com.mlt.api.common.handler.error.exception.notfound.CategoryNotFoundException;
+import com.mlt.api.common.handler.error.exception.notfound.ImageNotFoundException;
+import com.mlt.api.common.handler.error.exception.notfound.PriceNotFoundException;
 import com.mlt.api.common.handler.error.exception.notfound.ProductNotFoundException;
 import com.mlt.api.common.handler.error.exception.validation.IdsNotFoundException;
 import com.mlt.api.common.handler.error.exception.validation.IdsNotMatchException;
@@ -198,8 +200,8 @@ public class ProductServiceImpl implements ProductService {
                              .stream()
                              .filter(p -> p.getId().equals(idPrice))
                              .findFirst()
-                             .orElseThrow(() -> IdsNotFoundException.builder("price id", List.of(idPrice.toString()))
-                                                                    .build());
+                             .orElseThrow(() -> PriceNotFoundException.builder("price id")
+                                                                      .build());
         price.setDeletedAt(LocalDateTime.now());
         productRepository.save(product);
         product.getPrices().remove(price);
@@ -213,9 +215,8 @@ public class ProductServiceImpl implements ProductService {
                                                  .stream()
                                                  .filter(p -> p.getCategory().getId().equals(idCategory))
                                                  .findFirst()
-                                                 .orElseThrow(() -> IdsNotFoundException.builder(
-                                                         "category id",
-                                                         List.of(idCategory.toString())
+                                                 .orElseThrow(() -> CategoryNotFoundException.builder(
+                                                         "category id"
                                                  ).build());
         productCategory.setDeletedAt(LocalDateTime.now());
         productRepository.save(product);
@@ -230,9 +231,8 @@ public class ProductServiceImpl implements ProductService {
                                            .stream()
                                            .filter(p -> p.getId().equals(idImage))
                                            .findFirst()
-                                           .orElseThrow(() -> IdsNotFoundException.builder(
-                                                   "image id",
-                                                   List.of(idImage.toString())
+                                           .orElseThrow(() -> ImageNotFoundException.builder(
+                                                   "image id"
                                            ).build());
         productImage.setDeletedAt(LocalDateTime.now());
         productRepository.save(product);

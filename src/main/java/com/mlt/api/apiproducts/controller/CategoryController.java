@@ -4,6 +4,7 @@ import com.mlt.api.apiproducts.domain.dto.data.CategoryDTO;
 import com.mlt.api.apiproducts.domain.dto.request.body.CreateCategoryRequest;
 import com.mlt.api.apiproducts.domain.dto.request.body.UpdateCategoryRequest;
 import com.mlt.api.apiproducts.domain.dto.response.GetCategoriesData;
+import com.mlt.api.common.domain.response.MltResponse;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,15 +20,15 @@ import org.springframework.web.bind.annotation.RestController;
 public interface CategoryController {
 
     @GetMapping("")
-    GetCategoriesData getCategories();
+    MltResponse<GetCategoriesData> getCategories();
 
     @PostMapping("")
-    CategoryDTO createCategory(@RequestBody @Valid CreateCategoryRequest category);
+    MltResponse<CategoryDTO> createCategory(@RequestBody @Valid CreateCategoryRequest category);
 
     @PutMapping("/{id}")
-    CategoryDTO updateCategory(@RequestBody @Valid UpdateCategoryRequest category, @PathVariable Integer id);
+    MltResponse<CategoryDTO> updateCategory(@RequestBody @Valid UpdateCategoryRequest category, @PathVariable Integer id);
 
     @DeleteMapping("/{id}")
-    CategoryDTO deleteCategory(@PathVariable Integer id);
+    MltResponse<CategoryDTO> deleteCategory(@PathVariable Integer id);
 
 }
