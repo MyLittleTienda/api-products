@@ -8,6 +8,15 @@ import java.util.List;
 
 public class ProductSpecification {
 
+    public static Specification<Product> findByIdsIn(List<Long> ids) {
+        return (root, query, cb) -> {
+            if (ids == null) {
+                return null;
+            }
+            return root.get("id").in(ids);
+        };
+    }
+
     public static Specification<Product> findByNameLike(String name) {
         return (root, query, cb) -> {
             if (name == null) {

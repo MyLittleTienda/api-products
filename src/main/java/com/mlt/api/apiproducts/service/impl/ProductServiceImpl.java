@@ -57,7 +57,8 @@ public class ProductServiceImpl implements ProductService {
                                                 .equalsIgnoreCase(queryParams.getSort()) ? Sort.Direction.ASC : Sort.Direction.DESC;
         Pageable pageable = PageRequest.of(queryParams.getPage() - 1, queryParams.getSize(), sort, "createdAt");
 
-        Specification<Product> specifications = ProductSpecification.findByNameLike(queryParams.getName());
+        Specification<Product> specifications = ProductSpecification.findByIdsIn(queryParams.getIds());
+        specifications = ProductSpecification.findByNameLike(queryParams.getName());
         specifications = specifications.and(ProductSpecification.findByCategoryNamesIn(queryParams.getCategoryNames()));
         specifications = specifications.and(ProductSpecification.findByPriceBetween(
                 queryParams.getMinPrice(),

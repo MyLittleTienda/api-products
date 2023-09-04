@@ -19,6 +19,7 @@ import java.util.List;
 @Data
 public class GetProductsQueryParams extends PageableMltRequest {
 
+    private List<Long> ids;
     private String name;
     private String description;
     private List<String> categoryNames;
