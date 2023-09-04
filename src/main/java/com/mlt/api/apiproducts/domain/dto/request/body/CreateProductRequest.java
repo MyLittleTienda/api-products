@@ -1,5 +1,6 @@
 package com.mlt.api.apiproducts.domain.dto.request.body;
 
+import com.mlt.api.apiproducts.domain.dto.data.ImageLinkDTO;
 import com.mlt.api.common.domain.request.MltRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;

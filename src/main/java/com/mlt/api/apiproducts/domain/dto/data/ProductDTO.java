@@ -2,7 +2,6 @@ package com.mlt.api.apiproducts.domain.dto.data;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.mlt.api.apiproducts.domain.dto.request.body.ImageLinkDTO;
 import com.mlt.api.common.domain.constantes.DateFormatConstants;
 import com.mlt.api.common.domain.response.MltData;
 import lombok.AllArgsConstructor;

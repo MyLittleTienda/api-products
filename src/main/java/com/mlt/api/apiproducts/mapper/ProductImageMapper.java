@@ -1,6 +1,6 @@
 package com.mlt.api.apiproducts.mapper;
 
-import com.mlt.api.apiproducts.domain.dto.request.body.ImageLinkDTO;
+import com.mlt.api.apiproducts.domain.dto.data.ImageLinkDTO;
 import com.mlt.api.apiproducts.model.ProductImage;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

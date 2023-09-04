@@ -3,7 +3,7 @@ package com.mlt.api.apiproducts.controller.impl;
 import com.mlt.api.apiproducts.controller.ProductController;
 import com.mlt.api.apiproducts.domain.dto.data.ProductDTO;
 import com.mlt.api.apiproducts.domain.dto.request.body.CreateProductRequest;
-import com.mlt.api.apiproducts.domain.dto.request.body.ImageLinkDTO;
+import com.mlt.api.apiproducts.domain.dto.data.ImageLinkDTO;
 import com.mlt.api.apiproducts.domain.dto.request.body.UpdateProductRequest;
 import com.mlt.api.apiproducts.domain.dto.request.query.GetProductsQueryParams;
 import com.mlt.api.apiproducts.domain.dto.response.GetProductsData;

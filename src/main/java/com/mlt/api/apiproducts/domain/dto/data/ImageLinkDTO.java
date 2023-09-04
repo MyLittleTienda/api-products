@@ -1,4 +1,4 @@
-package com.mlt.api.apiproducts.domain.dto.request.body;
+package com.mlt.api.apiproducts.domain.dto.data;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.mlt.api.common.domain.request.MltRequest;
