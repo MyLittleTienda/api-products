@@ -8,6 +8,8 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,6 +19,7 @@ public class PriceDTO extends MltData {
 
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Integer id;
-    private Double value;
+
+    private BigDecimal value;
 
 }

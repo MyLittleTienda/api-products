@@ -1,13 +1,5 @@
 package com.mlt.api.apiproducts.controller;
 
-import com.mlt.api.apiproducts.domain.dto.data.ProductDTO;
-import com.mlt.api.apiproducts.domain.dto.request.body.CreateProductRequest;
-import com.mlt.api.apiproducts.domain.dto.data.ImageLinkDTO;
-import com.mlt.api.apiproducts.domain.dto.request.body.UpdateProductRequest;
-import com.mlt.api.apiproducts.domain.dto.request.query.GetProductsQueryParams;
-import com.mlt.api.apiproducts.domain.dto.response.GetProductsData;
-import com.mlt.api.common.domain.response.MltResponse;
-import jakarta.validation.Valid;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +9,16 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import com.mlt.api.apiproducts.domain.dto.data.ImageLinkDTO;
+import com.mlt.api.apiproducts.domain.dto.data.ProductDTO;
+import com.mlt.api.apiproducts.domain.dto.request.body.CreateProductRequest;
+import com.mlt.api.apiproducts.domain.dto.request.body.UpdateProductRequest;
+import com.mlt.api.apiproducts.domain.dto.request.query.GetProductsQueryParams;
+import com.mlt.api.apiproducts.domain.dto.response.GetProductsData;
+import com.mlt.api.common.domain.response.MltResponse;
+
+import jakarta.validation.Valid;
 
 @RequestMapping("/api/v1/products")
 @Validated
@@ -32,7 +34,8 @@ public interface ProductController {
     MltResponse<ProductDTO> createProduct(@RequestBody @Valid CreateProductRequest request);
 
     @PutMapping("/{id}")
-    MltResponse<ProductDTO> updateProductData(@PathVariable Integer id, @RequestBody @Valid UpdateProductRequest request);
+    MltResponse<ProductDTO> updateProductData(@PathVariable Integer id,
+            @RequestBody @Valid UpdateProductRequest request);
 
     @DeleteMapping("/{id}")
     MltResponse<ProductDTO> deleteProduct(@PathVariable Integer id);
@@ -54,6 +57,5 @@ public interface ProductController {
 
     @DeleteMapping("/{id}/images/{idImage}")
     MltResponse<ProductDTO> removeImage(@PathVariable Integer id, @PathVariable Integer idImage);
-
 
 }

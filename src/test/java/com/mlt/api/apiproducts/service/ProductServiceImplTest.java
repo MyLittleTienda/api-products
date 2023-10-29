@@ -102,8 +102,6 @@ public class ProductServiceImplTest {
 
     @Test
     void givenAllParameters_whenGetProducts_thenNotData() {
-        //List of Products for mock with generic data
-        LocalDateTime now = LocalDateTime.now();
         List<Product> productsMock = new ArrayList<>();
 
         Page<Product> products = new PageImpl<>(productsMock, PageRequest.of(0, 10), 1);

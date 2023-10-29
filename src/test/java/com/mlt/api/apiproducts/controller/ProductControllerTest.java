@@ -21,6 +21,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -90,7 +91,7 @@ public class ProductControllerTest {
                                                                                  .build()))
                                                       .description("Termo")
                                                       .prices(List.of(
-                                                              PriceDTO.builder().id(1).value(500D).build()))
+                                                              PriceDTO.builder().id(1).value(BigDecimal.valueOf(500D)).build()))
                                                       .build())
                                       .build());
 
@@ -133,7 +134,7 @@ public class ProductControllerTest {
                                                                                  .build()))
                                                       .description("Termo")
                                                       .prices(List.of(
-                                                              PriceDTO.builder().id(1).value(500D).build()))
+                                                              PriceDTO.builder().id(1).value(BigDecimal.valueOf(500D)).build()))
                                                       .build())
                                       .build());
         mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/products/1")
@@ -193,7 +194,7 @@ public class ProductControllerTest {
                                                                                  .id(1)
                                                                                  .name("category")
                                                                                  .build()))
-                                                      .prices(List.of(PriceDTO.builder().id(1).value(500D).build()))
+                                                      .prices(List.of(PriceDTO.builder().id(1).value(BigDecimal.valueOf(500D)).build()))
                                                       .build()).build());
         mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/products/1/prices")
                                               .contentType(MediaType.APPLICATION_JSON).param("price", "500"))
@@ -229,7 +230,7 @@ public class ProductControllerTest {
                                                                                  .id(1)
                                                                                  .name("category")
                                                                                  .build()))
-                                                      .prices(List.of(PriceDTO.builder().id(1).value(500D).build()))
+                                                      .prices(List.of(PriceDTO.builder().id(1).value(BigDecimal.valueOf(500D)).build()))
                                                       .build()).build());
         mockMvc.perform(MockMvcRequestBuilders.put("/api/v1/products/1/categories")
                                               .contentType(MediaType.APPLICATION_JSON).param("idCategory", "1"))
@@ -266,7 +267,7 @@ public class ProductControllerTest {
                                                                                  .id(1)
                                                                                  .name("category")
                                                                                  .build()))
-                                                      .prices(List.of(PriceDTO.builder().id(1).value(500D).build()))
+                                                      .prices(List.of(PriceDTO.builder().id(1).value(BigDecimal.valueOf(500D)).build()))
                                                       .build()).build());
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/products/1/categories/1")
                                               .contentType(MediaType.APPLICATION_JSON))
@@ -302,7 +303,7 @@ public class ProductControllerTest {
                                                                                  .id(1)
                                                                                  .name("category")
                                                                                  .build()))
-                                                      .prices(List.of(PriceDTO.builder().id(1).value(500D).build()))
+                                                      .prices(List.of(PriceDTO.builder().id(1).value(BigDecimal.valueOf(500D)).build()))
                                                       .images(List.of(ImageLinkDTO.builder()
                                                                                   .link("link")
                                                                                   .provider("provider")
@@ -348,7 +349,7 @@ public class ProductControllerTest {
                                                                                  .id(1)
                                                                                  .name("category")
                                                                                  .build()))
-                                                      .prices(List.of(PriceDTO.builder().id(1).value(500D).build()))
+                                                      .prices(List.of(PriceDTO.builder().id(1).value(BigDecimal.valueOf(500D)).build()))
                                                       .images(List.of(ImageLinkDTO.builder()
                                                                                   .link("link")
                                                                                   .provider("provider")
@@ -392,7 +393,7 @@ public class ProductControllerTest {
                                                                                  .id(1)
                                                                                  .name("category")
                                                                                  .build()))
-                                                      .prices(List.of(PriceDTO.builder().id(1).value(500D).build()))
+                                                      .prices(List.of(PriceDTO.builder().id(1).value(BigDecimal.valueOf(500D)).build()))
                                                       .build()).build());
 
         mockMvc.perform(MockMvcRequestBuilders.delete("/api/v1/products/1/prices/1")

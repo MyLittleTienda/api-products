@@ -25,13 +25,13 @@ public class GetProductsQueryParams extends PageableMltRequest {
     private List<String> categoryNames;
     private Double minPrice;
     private Double maxPrice;
-    @JsonFormat(pattern = DateFormatConstants.DATE_TIME_FORMAT)
+    @JsonFormat(pattern = DateFormatConstants.DATE_FORMAT)
     private LocalDateTime createdAfter;
-    @JsonFormat(pattern = DateFormatConstants.DATE_TIME_FORMAT)
+    @JsonFormat(pattern = DateFormatConstants.DATE_FORMAT)
     private LocalDateTime createdBefore;
-    @JsonFormat(pattern = DateFormatConstants.DATE_TIME_FORMAT)
+    @JsonFormat(pattern = DateFormatConstants.DATE_FORMAT)
     private LocalDateTime updatedAfter;
-    @JsonFormat(pattern = DateFormatConstants.DATE_TIME_FORMAT)
+    @JsonFormat(pattern = DateFormatConstants.DATE_FORMAT)
     private LocalDateTime updatedBefore;
 
 }

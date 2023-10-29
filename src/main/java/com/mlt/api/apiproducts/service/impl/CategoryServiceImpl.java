@@ -1,5 +1,10 @@
 package com.mlt.api.apiproducts.service.impl;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import com.mlt.api.apiproducts.domain.dto.data.CategoryDTO;
 import com.mlt.api.apiproducts.domain.dto.request.body.CreateCategoryRequest;
 import com.mlt.api.apiproducts.domain.dto.request.body.UpdateCategoryRequest;
@@ -12,11 +17,8 @@ import com.mlt.api.common.domain.response.MltResponse;
 import com.mlt.api.common.handler.error.exception.notfound.CategoryNotFoundException;
 import com.mlt.api.common.handler.error.exception.validation.CategoryExistsException;
 import com.mlt.api.common.handler.error.exception.validation.IdsNotMatchException;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.List;
+import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
@@ -29,10 +31,14 @@ public class CategoryServiceImpl implements CategoryService {
     public MltResponse<GetCategoriesData> getCategories() {
         List<Category> categories = categoryRepository.findAll(CategoryRepository.categoryDeletedAtNotNull());
         return MltResponse.<GetCategoriesData>builder().data(GetCategoriesData.builder()
-                                                                              .categories(categories.stream()
-                                                                                                    .map(categoryMapper::toCategoryDTO)
-                                                                                                    .toList())
-                                                                              .build()).build();
+                .categories(categories.stream()
+                        .map(categoryMapper::toCategoryDTO)
+                        .toList())
+                .build()).build();
+    }
+
+    public List<Category> findAll() {
+        return categoryRepository.findAll();
     }
 
     @Override
@@ -41,8 +47,9 @@ public class CategoryServiceImpl implements CategoryService {
             throw CategoryExistsException.builder().name(category.getName()).build();
         }
         return MltResponse.<CategoryDTO>builder()
-                          .data(categoryMapper.toCategoryDTO(categoryRepository.save(categoryMapper.toCategory(category.getName()))))
-                          .build();
+                .data(categoryMapper
+                        .toCategoryDTO(categoryRepository.save(categoryMapper.toCategory(category.getName()))))
+                .build();
     }
 
     @Override
@@ -56,20 +63,20 @@ public class CategoryServiceImpl implements CategoryService {
         }
 
         Category category = categoryRepository.findById(id)
-                                              .orElseThrow(() -> CategoryNotFoundException.builder(id.toString())
-                                                                                          .build());
+                .orElseThrow(() -> CategoryNotFoundException.builder(id.toString())
+                        .build());
         category.setName(categoryRequest.getName());
 
         return MltResponse.<CategoryDTO>builder()
-                          .data(categoryMapper.toCategoryDTO(categoryRepository.save(category)))
-                          .build();
+                .data(categoryMapper.toCategoryDTO(categoryRepository.save(category)))
+                .build();
     }
 
     @Override
     public MltResponse<CategoryDTO> deleteCategory(Integer id) {
         Category category = categoryRepository.findById(id)
-                                              .orElseThrow(() -> CategoryNotFoundException.builder(id.toString())
-                                                                                          .build());
+                .orElseThrow(() -> CategoryNotFoundException.builder(id.toString())
+                        .build());
 
         category.setDeletedAt(LocalDateTime.now());
         categoryRepository.save(category);

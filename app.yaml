@@ -1,2 +1,2 @@
 runtime: java17
-service: api-shopping-cart
+service: api-products

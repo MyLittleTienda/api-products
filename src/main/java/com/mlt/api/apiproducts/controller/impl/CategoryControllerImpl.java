@@ -35,4 +35,5 @@ public class CategoryControllerImpl implements CategoryController {
     public MltResponse<CategoryDTO> deleteCategory(Integer id) {
         return categoryService.deleteCategory(id);
     }
+
 }

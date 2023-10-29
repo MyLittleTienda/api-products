@@ -20,7 +20,7 @@ public interface PriceMapper {
     @Mapping(target = "createdAt", expression = "java(java.time.LocalDateTime.now())")
     Price toPrice(Double value);
 
-    @Mapping(source = "price", target = "value")
+    @Mapping(target = "value", expression = "java(java.math.BigDecimal.valueOf(price.getPrice()))")
     PriceDTO toPriceDTO(Price price);
 
     @BeanMapping(resultType = ArrayList.class)

@@ -1,8 +1,20 @@
 package com.mlt.api.apiproducts.service.impl;
 
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.stereotype.Service;
+
+import com.mlt.api.apiproducts.domain.dto.data.ImageLinkDTO;
 import com.mlt.api.apiproducts.domain.dto.data.ProductDTO;
 import com.mlt.api.apiproducts.domain.dto.request.body.CreateProductRequest;
-import com.mlt.api.apiproducts.domain.dto.data.ImageLinkDTO;
 import com.mlt.api.apiproducts.domain.dto.request.body.UpdateProductRequest;
 import com.mlt.api.apiproducts.domain.dto.request.query.GetProductsQueryParams;
 import com.mlt.api.apiproducts.domain.dto.response.GetProductsData;
@@ -26,19 +38,9 @@ import com.mlt.api.common.handler.error.exception.notfound.PriceNotFoundExceptio
 import com.mlt.api.common.handler.error.exception.notfound.ProductNotFoundException;
 import com.mlt.api.common.handler.error.exception.validation.IdsNotFoundException;
 import com.mlt.api.common.handler.error.exception.validation.IdsNotMatchException;
+
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -54,41 +56,38 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public MltResponse<GetProductsData> getProducts(GetProductsQueryParams queryParams) {
         Sort.Direction sort = Sort.Direction.ASC.name()
-                                                .equalsIgnoreCase(queryParams.getSort()) ? Sort.Direction.ASC : Sort.Direction.DESC;
+                .equalsIgnoreCase(queryParams.getSort()) ? Sort.Direction.ASC : Sort.Direction.DESC;
         Pageable pageable = PageRequest.of(queryParams.getPage() - 1, queryParams.getSize(), sort, "createdAt");
 
         Specification<Product> specifications = ProductSpecification.findByIdsIn(queryParams.getIds());
-        specifications = ProductSpecification.findByNameLike(queryParams.getName());
+        specifications = specifications.and(ProductSpecification.findByNameLike(queryParams.getName()));
         specifications = specifications.and(ProductSpecification.findByCategoryNamesIn(queryParams.getCategoryNames()));
         specifications = specifications.and(ProductSpecification.findByPriceBetween(
                 queryParams.getMinPrice(),
-                queryParams.getMaxPrice()
-        ));
+                queryParams.getMaxPrice()));
         specifications = specifications.and(ProductSpecification.findByCreatedAtBetween(
                 queryParams.getCreatedAfter(),
-                queryParams.getCreatedBefore()
-        ));
+                queryParams.getCreatedBefore()));
         specifications = specifications.and(ProductSpecification.findByUpdatedAtBetween(
                 queryParams.getUpdatedAfter(),
-                queryParams.getUpdatedBefore()
-        ));
+                queryParams.getUpdatedBefore()));
 
         Page<Product> products = productRepository.findAll(specifications, pageable);
 
         GetProductsData data = GetProductsData.builder()
-                                              .products(products.getContent()
-                                                                .stream()
-                                                                .map(productMapper::toProductDTO)
-                                                                .collect(Collectors.toList()))
-                                              .totalPages(products.getTotalPages())
-                                              .totalElements(products.getTotalElements())
-                                              .page(products.getNumber() + 1)
-                                              .size(products.getSize())
-                                              .build();
+                .products(products.getContent()
+                        .stream()
+                        .map(productMapper::toProductDTO)
+                        .collect(Collectors.toList()))
+                .totalPages(products.getTotalPages())
+                .totalElements(products.getTotalElements())
+                .page(products.getNumber() + 1)
+                .size(products.getSize())
+                .build();
 
         return MltResponse.<GetProductsData>builder()
-                          .data(data)
-                          .build();
+                .data(data)
+                .build();
     }
 
     @Override
@@ -101,23 +100,19 @@ public class ProductServiceImpl implements ProductService {
     @Transactional
     public MltResponse<ProductDTO> createProduct(CreateProductRequest productDTO) {
 
-
         List<Category> categories = categoryRepository.findAllById(productDTO.getCategories());
         if (categories.size() != productDTO.getCategories().size()) {
             throw IdsNotFoundException.builder(
                     "category",
-                    productDTO.getCategories().stream().map(Objects::toString).toList()
-            ).build();
+                    productDTO.getCategories().stream().map(Objects::toString).toList()).build();
         }
-
 
         Product product = productMapper.toProduct(productDTO);
         List<ProductCategory> productCategories = categories.stream()
-                                                            .map(c -> productCategoryMapper.toProductCategory(
-                                                                    c,
-                                                                    product
-                                                            ))
-                                                            .toList();
+                .map(c -> productCategoryMapper.toProductCategory(
+                        c,
+                        product))
+                .toList();
         product.setProductCategories(productCategories);
         productRepository.save(product);
 
@@ -172,8 +167,8 @@ public class ProductServiceImpl implements ProductService {
         Product product = getProduct(id);
         if (product.getProductCategories().stream().noneMatch(p -> p.getCategory().getId().equals(idCategory))) {
             Category category = categoryRepository.findById(idCategory)
-                                                  .orElseThrow(() -> CategoryNotFoundException.builder(idCategory.toString())
-                                                                                              .build());
+                    .orElseThrow(() -> CategoryNotFoundException.builder(idCategory.toString())
+                            .build());
 
             ProductCategory productCategory = productCategoryMapper.toProductCategory(category, product);
             product.addCategory(productCategory);
@@ -198,11 +193,11 @@ public class ProductServiceImpl implements ProductService {
     public MltResponse<ProductDTO> removePrice(Integer id, Integer idPrice) {
         Product product = getProduct(id);
         Price price = product.getPrices()
-                             .stream()
-                             .filter(p -> p.getId().equals(idPrice))
-                             .findFirst()
-                             .orElseThrow(() -> PriceNotFoundException.builder("price id")
-                                                                      .build());
+                .stream()
+                .filter(p -> p.getId().equals(idPrice))
+                .findFirst()
+                .orElseThrow(() -> PriceNotFoundException.builder("price id")
+                        .build());
         price.setDeletedAt(LocalDateTime.now());
         productRepository.save(product);
         product.getPrices().remove(price);
@@ -213,12 +208,11 @@ public class ProductServiceImpl implements ProductService {
     public MltResponse<ProductDTO> removeCategory(Integer id, Integer idCategory) {
         Product product = getProduct(id);
         ProductCategory productCategory = product.getProductCategories()
-                                                 .stream()
-                                                 .filter(p -> p.getCategory().getId().equals(idCategory))
-                                                 .findFirst()
-                                                 .orElseThrow(() -> CategoryNotFoundException.builder(
-                                                         "category id"
-                                                 ).build());
+                .stream()
+                .filter(p -> p.getCategory().getId().equals(idCategory))
+                .findFirst()
+                .orElseThrow(() -> CategoryNotFoundException.builder(
+                        "category id").build());
         productCategory.setDeletedAt(LocalDateTime.now());
         productRepository.save(product);
         product.getProductCategories().remove(productCategory);
@@ -229,12 +223,11 @@ public class ProductServiceImpl implements ProductService {
     public MltResponse<ProductDTO> removeImage(Integer id, Integer idImage) {
         Product product = getProduct(id);
         ProductImage productImage = product.getImages()
-                                           .stream()
-                                           .filter(p -> p.getId().equals(idImage))
-                                           .findFirst()
-                                           .orElseThrow(() -> ImageNotFoundException.builder(
-                                                   "image id"
-                                           ).build());
+                .stream()
+                .filter(p -> p.getId().equals(idImage))
+                .findFirst()
+                .orElseThrow(() -> ImageNotFoundException.builder(
+                        "image id").build());
         productImage.setDeletedAt(LocalDateTime.now());
         productRepository.save(product);
         product.getImages().remove(productImage);
@@ -243,8 +236,7 @@ public class ProductServiceImpl implements ProductService {
 
     private Product getProduct(Integer id) {
         return productRepository.findById(id)
-                                .orElseThrow(() -> ProductNotFoundException.builder(id.toString()).build());
+                .orElseThrow(() -> ProductNotFoundException.builder(id.toString()).build());
     }
-
 
 }
