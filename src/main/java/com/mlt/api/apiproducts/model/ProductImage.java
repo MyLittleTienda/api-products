@@ -26,36 +26,36 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-@Table(name = "product_image")
-@Where(clause = "deleted_at is null")
+@Table(name = "PRODUCT_IMAGE")
+@Where(clause = "DELETED_AT is null")
 public class ProductImage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "ID", nullable = false)
     private Integer id;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "product_id", nullable = false, referencedColumnName = "id")
+    @JoinColumn(name = "PRODUCT_ID", nullable = false, referencedColumnName = "id")
     private Product product;
 
     @Size(max = 250)
     @NotNull
-    @Column(name = "image_link", nullable = false, length = 250)
+    @Column(name = "IMAGE_LINK", nullable = false, length = 250)
     private String imageLink;
 
     @Size(max = 100)
     @NotNull
-    @Column(name = "provider", nullable = false, length = 100)
+    @Column(name = "PROVIDER", nullable = false, length = 100)
     private String provider;
 
-    @Column(name = "created_at")
+    @Column(name = "CREATED_AT")
     private LocalDateTime createdAt;
 
-    @Column(name = "updated_at")
+    @Column(name = "UPDATED_AT")
     private LocalDateTime updatedAt;
 
-    @Column(name = "deleted_at")
+    @Column(name = "DELETED_AT")
     private LocalDateTime deletedAt;
 
 }

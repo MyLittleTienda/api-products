@@ -27,28 +27,28 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "product")
-@Where(clause = "deleted_at is null")
+@Table(name = "PRODUCT")
+@Where(clause = "DELETED_AT is null")
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "ID", nullable = false)
     private Integer id;
 
     @Size(max = 100)
     @NotNull
-    @Column(name = "name", nullable = false, length = 100)
+    @Column(name = "NAME", nullable = false, length = 100)
     private String name;
 
     @Size(max = 1000)
     @NotNull
-    @Column(name = "description", nullable = false, length = 1000)
+    @Column(name = "DESCRIPTION", nullable = false, length = 1000)
     private String description;
 
-    @Column(name = "created_at")
+    @Column(name = "CREATED_AT")
     private LocalDateTime createdAt;
 
-    @Column(name = "updated_at")
+    @Column(name = "UPDATED_AT")
     private LocalDateTime updatedAt;
 
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
@@ -60,7 +60,7 @@ public class Product {
     @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
     private List<Price> prices;
 
-    @Column(name = "deleted_at")
+    @Column(name = "DELETED_AT")
     private LocalDateTime deletedAt;
 
     public void addPrice(Price price) {

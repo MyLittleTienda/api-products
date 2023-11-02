@@ -1,2 +1,0 @@
-ALTER TABLE price
-    ADD COLUMN deleted_at TIMESTAMP;

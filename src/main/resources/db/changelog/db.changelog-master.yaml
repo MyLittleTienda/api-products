@@ -1,0 +1,5 @@
+databaseChangeLog:
+  - include:
+      id: "master_mlt_products"
+      file: mlt_product/master.yaml
+      relativeToChangelogFile: true

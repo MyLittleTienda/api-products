@@ -25,27 +25,27 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
-@Table(name = "price")
+@Table(name = "PRICE")
 @Where(clause = "deleted_at is null")
 public class Price {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+    @Column(name = "ID", nullable = false)
     private Integer id;
 
     @NotNull
-    @Column(name = "price", nullable = false)
+    @Column(name = "PRICE", nullable = false)
     private Double price;
 
-    @Column(name = "created_at")
+    @Column(name = "CREATED_AT")
     private LocalDateTime createdAt;
 
-    @Column(name = "deleted_at")
+    @Column(name = "DELETED_AT")
     private LocalDateTime deletedAt;
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "product_id", nullable = false)
+    @JoinColumn(name = "PRODUCT_ID", nullable = false)
     private Product product;
 
 }
